@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.LoadBalancer.name }}
+  labels:
+    app: {{ .Values.service.LoadBalancer.name }}
+spec:
+  ports:
+  - name: http
+    port: {{ .Values.service.LoadBalancer.port }}
+    targetPort: {{ .Values.service.LoadBalancer.targetPort }}
+    protocol: {{ .Values.service.LoadBalancer.protocol }}
+
+          
+  - name: metrics
+    port: {{.Values.serviceMonitor.port }}
+    targetPort: {{.Values.serviceMonitor.targetPort }}
+    protocol: {{ .Values.serviceMonitor.protocol }}
+
+  selector:
+    app: {{ .Values.release.name | quote }}
+  type: {{ .Values.service.LoadBalancer.type | quote }}

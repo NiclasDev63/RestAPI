@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ .Values.serviceMonitor.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.service.LoadBalancer.name }}
+    release: my-kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.service.LoadBalancer.name }}
+  endpoints:
+  - port: metrics
+    interval: 15s
+    path: "/metrics"

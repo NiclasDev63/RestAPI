@@ -1,0 +1,43 @@
+release:
+  name: rest-api
+  replicas: 1
+
+namespace: default
+
+image:
+  name: 832720821158.dkr.ecr.eu-central-1.amazonaws.com/cloudbootcamp_niclas_gregor_containerregistry
+  tag: latest
+  port: 8080
+
+
+
+service:
+  LoadBalancer:
+    name: rest-api-load-balancer
+    type: LoadBalancer
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+
+serviceMonitor:
+  name: rest-api-monitoring
+  port: 1337
+  targetPort: 8080
+  protocol: TCP
+
+secrets:
+  dbcreds:
+    DBUSERNAME: cGV4b24tdHJhaW5pbmc=
+    DBPASSWORD: cGV4b24tdHJhaW5pbmcyMDIyZ2F0ZWtlZXBlcg==
+    DBENGINE: bXlzcWw=
+    DBHOST: MzQuMTU5LjMuMTI3
+    DBPORT: MzMwNg==
+    DBNAME: Ym9va3M=
+
+readinessCheck:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+livenessProbe:
+  initialDelaySeconds: 15
+  periodSeconds: 20

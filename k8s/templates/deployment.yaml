@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.release.name }}
+  labels:
+    app: {{ .Values.release.name }}
+
+spec:
+  replicas: {{ .Values.release.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.release.name }}
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.release.name }}
+    spec:
+
+      containers:
+        - name: {{ .Values.release.name }}
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag}}"
+          ports:
+          - containerPort: {{ .Values.image.port }}
+
+          envFrom:
+            - secretRef:
+                name: dbcreds
+
+          readinessProbe:
+            initialDelaySeconds: {{ .Values.readinessCheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessCheck.periodSeconds }}
+            httpGet:
+              path: /health
+              port: {{ .Values.image.port }}
+            
+          livenessProbe:
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            httpGet:
+              path: /health
+              port: {{ .Values.image.port }}

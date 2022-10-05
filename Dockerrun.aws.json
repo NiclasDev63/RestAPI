@@ -1,0 +1,9 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+       "Name": "832720821158.dkr.ecr.eu-central-1.amazonaws.com/cloudbootcamp_niclas_gregor_containerregistry:latest"
+    },
+    "Ports": [
+       {"ContainerPort": "8080"}
+    ]
+ }

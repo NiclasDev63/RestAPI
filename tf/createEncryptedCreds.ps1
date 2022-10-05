@@ -1,0 +1,1 @@
+aws kms encrypt --key-id 4bd845f8-4065-41e6-8b10-86a11631060e --region eu-central-1 --plaintext fileb://db-creds.yml --output text --query CiphertextBlob > db-creds.txt
